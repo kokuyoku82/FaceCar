@@ -169,6 +169,38 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
         super.viewDidDisappear(animated)
     }
     
+    func turnCar(angle: CGFloat) {
+        for constraint in self.view.constraints {
+            if constraint.identifier == "carCenterX" {
+                var multiplier = constraint.multiplier + angle
+                
+                multiplier = max(0.1, multiplier)
+                multiplier = min(multiplier, 1)
+                
+                let newConstraint = NSLayoutConstraint(item: constraint.firstItem, attribute: constraint.firstAttribute, relatedBy: constraint.relation, toItem: constraint.secondItem, attribute: constraint.secondAttribute, multiplier: multiplier, constant: constraint.constant)
+                newConstraint.identifier = constraint.identifier
+                self.view.removeConstraint(constraint)
+                self.view.addConstraint(newConstraint)
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+    
+    func gunOnCar() {
+        for constraint in self.view.constraints {
+            if constraint.identifier == "carVerticalSpace" {
+                var multiplier = constraint.multiplier - 0.025
+                multiplier = max(0.15, multiplier)
+                
+                let newConstraint = NSLayoutConstraint(item: constraint.firstItem, attribute: constraint.firstAttribute, relatedBy: constraint.relation, toItem: constraint.secondItem, attribute: constraint.secondAttribute, multiplier: multiplier, constant: constraint.constant)
+                newConstraint.identifier = constraint.identifier
+                self.view.removeConstraint(constraint)
+                self.view.addConstraint(newConstraint)
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+    
     //MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
     private var faceDetector = CIDetector(ofType: CIDetectorTypeFace,
                                           context: nil,
@@ -229,34 +261,10 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
         
         angle /= 200
         
-        for constraint in self.view.constraints {
-            if constraint.identifier == "carCenterX" {
-                var multiplier = constraint.multiplier + angle
-                
-                multiplier = max(0.1, multiplier)
-                multiplier = min(multiplier, 1)
-                
-                let newConstraint = NSLayoutConstraint(item: constraint.firstItem, attribute: constraint.firstAttribute, relatedBy: constraint.relation, toItem: constraint.secondItem, attribute: constraint.secondAttribute, multiplier: multiplier, constant: constraint.constant)
-                newConstraint.identifier = constraint.identifier
-                self.view.removeConstraint(constraint)
-                self.view.addConstraint(newConstraint)
-                self.view.layoutIfNeeded()
-            }
-        }
+        self.turnCar(angle: angle)
         
         if face.hasSmile {
-            for constraint in self.view.constraints {
-                if constraint.identifier == "carVerticalSpace" {
-                    var multiplier = constraint.multiplier - 0.025
-                    multiplier = max(0.15, multiplier)
-                    
-                    let newConstraint = NSLayoutConstraint(item: constraint.firstItem, attribute: constraint.firstAttribute, relatedBy: constraint.relation, toItem: constraint.secondItem, attribute: constraint.secondAttribute, multiplier: multiplier, constant: constraint.constant)
-                    newConstraint.identifier = constraint.identifier
-                    self.view.removeConstraint(constraint)
-                    self.view.addConstraint(newConstraint)
-                    self.view.layoutIfNeeded()
-                }
-            }
+            self.gunOnCar()
         }
     }
     
