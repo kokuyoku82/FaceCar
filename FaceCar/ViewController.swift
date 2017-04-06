@@ -203,21 +203,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
                 self.drawFaces(face, forVideoBox: cleanAperture, orientation: curDeviceOrientation)
             }
         }
-        else {
-            DispatchQueue.main.async {
-                self.legal = false
-            }
-        }
-    }
-    
-    let featureLayer = CALayer()
-    let featureLayerColors : [CGColor] = [UIColor.green.cgColor, UIColor.lightGray.cgColor]
-    
-    var legal = false {
-        didSet {
-            let index = self.legal ? 0 : 1
-            self.featureLayer.borderColor = self.featureLayerColors[index]
-        }
     }
     
     // 臉部判斷的核心
@@ -230,13 +215,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
         let previewBox = self.videoPreviewBox(forGravity: gravity!,
                                               frameSize: parentFrameSize,
                                               apertureSize: clearAperture.size)
-        
-        if self.featureLayer.superlayer == nil {
-            self.featureLayer.borderWidth = 3
-            self.featureLayer.cornerRadius = 30
-            self.captureVideoPreviewLayer.addSublayer(self.featureLayer)
-        }
-        self.featureLayer.isHidden = false
         
         let scaleBy = previewBox.width / clearAperture.height
         var m = CGAffineTransform.identity
@@ -267,15 +245,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
                 self.view.layoutIfNeeded()
             }
         }
-        
-        if abs(face.faceAngle) < 3 && !face.hasSmile {
-            self.legal = true
-        }
-        else {
-            self.legal = false
-        }
-        
-        self.featureLayer.frame = faceRect
     }
     
     func videoPreviewBox(forGravity gravity: String,
