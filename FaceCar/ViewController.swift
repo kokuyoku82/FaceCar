@@ -222,8 +222,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
         m = m.scaledBy(x: scaleBy, y: scaleBy)
         m = m.translatedBy(x: previewBox.origin.y/scaleBy, y: -clearAperture.height)
         
-        let faceRect = face.bounds.applying(m)
-        
         var angle = CGFloat(face.faceAngle)
         
         angle += face.leftEyeClosed ? -15 : 0
