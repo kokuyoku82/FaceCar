@@ -80,7 +80,7 @@
                             <constraint firstItem="lYf-oT-ByJ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="6Tw-Xf-vPB"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="lYf-oT-ByJ" secondAttribute="bottom" id="FiZ-4o-5Qs"/>
                             <constraint firstAttribute="trailing" secondItem="lYf-oT-ByJ" secondAttribute="trailing" id="PrW-Sb-JKX"/>
-                            <constraint firstItem="BLs-l3-Wtv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="trailing" multiplier="0.5" id="XZa-Ak-akG"/>
+                            <constraint firstItem="BLs-l3-Wtv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="trailing" multiplier="0.5" identifier="carCenterX" id="XZa-Ak-akG"/>
                             <constraint firstItem="lYf-oT-ByJ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="dge-0d-cg8"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Klq-9Y-vph" secondAttribute="bottom" constant="20" id="eyq-Ca-z9a"/>
                             <constraint firstAttribute="trailing" secondItem="Klq-9Y-vph" secondAttribute="trailing" constant="20" id="l9H-YE-uAV"/>
@@ -89,6 +89,7 @@
                     </view>
                     <connections>
                         <outlet property="cameraView" destination="Klq-9Y-vph" id="SFA-ZM-K41"/>
+                        <outlet property="carView" destination="BLs-l3-Wtv" id="tlR-rG-TjI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

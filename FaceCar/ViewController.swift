@@ -13,6 +13,7 @@ import CoreImage
 class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     @IBOutlet var cameraView: UIView!
+    @IBOutlet var carView: UIImageView!
     
     //Session
     lazy var captureSession : AVCaptureSession = {
@@ -245,8 +246,27 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
         
         let faceRect = face.bounds.applying(m)
         
-        NSLog("Left: \(face.leftEyeClosed), Right: \(face.rightEyeClosed)")
-        //        NSLog("Angle: \(face.faceAngle)")
+        var angle = CGFloat(face.faceAngle)
+        
+        angle += face.leftEyeClosed ? -15 : 0
+        angle += face.rightEyeClosed ? 15 : 0
+        
+        angle /= 200
+        
+        for constraint in self.view.constraints {
+            if constraint.identifier == "carCenterX" {
+                var multiplier = constraint.multiplier + angle
+                
+                multiplier = max(0.1, multiplier)
+                multiplier = min(multiplier, 1)
+                
+                let newConstraint = NSLayoutConstraint(item: constraint.firstItem, attribute: constraint.firstAttribute, relatedBy: constraint.relation, toItem: constraint.secondItem, attribute: constraint.secondAttribute, multiplier: multiplier, constant: constraint.constant)
+                newConstraint.identifier = constraint.identifier
+                self.view.removeConstraint(constraint)
+                self.view.addConstraint(newConstraint)
+                self.view.layoutIfNeeded()
+            }
+        }
         
         if abs(face.faceAngle) < 3 && !face.hasSmile {
             self.legal = true
