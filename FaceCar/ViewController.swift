@@ -248,56 +248,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
             self.gunOnCar()
         }
     }
-    
-    func videoPreviewBox(forGravity gravity: String,
-                         frameSize: CGSize,
-                         apertureSize:CGSize) -> CGRect {
-        
-        let apertureRatio = apertureSize.height / apertureSize.width
-        let viewRatio = frameSize.width / frameSize.height
-        
-        var size = CGSize()
-        switch gravity {
-        case AVLayerVideoGravityResizeAspectFill:
-            if viewRatio > apertureRatio {
-                size.width = frameSize.width
-                size.height = apertureSize.width * (frameSize.width / apertureSize.height)
-            }
-            else {
-                size.width = apertureSize.height * (frameSize.height / apertureSize.width)
-                size.height = frameSize.height
-            }
-        case AVLayerVideoGravityResizeAspect:
-            if viewRatio > apertureRatio {
-                size.width = apertureSize.height * (frameSize.height / apertureSize.width)
-                size.height = frameSize.height
-            }
-            else {
-                size.width = frameSize.width
-                size.height = apertureSize.width * (frameSize.width / apertureSize.height)
-            }
-        default:
-            size.width = frameSize.width
-            size.height = frameSize.height
-        }
-        
-        var origin = CGPoint()
-        if size.width < frameSize.width {
-            origin.x = (frameSize.width - size.width) / 2
-        }
-        else {
-            origin.x = (size.width - frameSize.width) / 2
-        }
-        
-        if size.height < frameSize.height {
-            origin.y = (frameSize.height - size.height) / 2
-        }
-        else {
-            origin.y = (size.height - frameSize.height) / 2
-        }
-        
-        return CGRect(origin: origin, size: size)
-    }
 }
 
 extension UIViewController {
