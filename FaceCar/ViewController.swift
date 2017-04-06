@@ -243,6 +243,21 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
                 self.view.layoutIfNeeded()
             }
         }
+        
+        if face.hasSmile {
+            for constraint in self.view.constraints {
+                if constraint.identifier == "carVerticalSpace" {
+                    var multiplier = constraint.multiplier - 0.025
+                    multiplier = max(0.15, multiplier)
+                    
+                    let newConstraint = NSLayoutConstraint(item: constraint.firstItem, attribute: constraint.firstAttribute, relatedBy: constraint.relation, toItem: constraint.secondItem, attribute: constraint.secondAttribute, multiplier: multiplier, constant: constraint.constant)
+                    newConstraint.identifier = constraint.identifier
+                    self.view.removeConstraint(constraint)
+                    self.view.addConstraint(newConstraint)
+                    self.view.layoutIfNeeded()
+                }
+            }
+        }
     }
     
     func videoPreviewBox(forGravity gravity: String,
