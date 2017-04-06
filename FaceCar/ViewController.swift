@@ -219,6 +219,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
         }
     }
     
+    // 臉部判斷的核心
     func drawFaces(_ face: CIFaceFeature,
                    forVideoBox clearAperture: CGRect,
                    orientation: UIDeviceOrientation){
