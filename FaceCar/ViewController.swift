@@ -242,18 +242,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
                    forVideoBox clearAperture: CGRect,
                    orientation: UIDeviceOrientation){
         
-        let parentFrameSize = self.captureVideoPreviewLayer.frame.size
-        let gravity = self.captureVideoPreviewLayer.videoGravity
-        let previewBox = self.videoPreviewBox(forGravity: gravity!,
-                                              frameSize: parentFrameSize,
-                                              apertureSize: clearAperture.size)
-        
-        let scaleBy = previewBox.width / clearAperture.height
-        var m = CGAffineTransform.identity
-        m = m.rotated(by: CGFloat.pi / 2)
-        m = m.scaledBy(x: scaleBy, y: scaleBy)
-        m = m.translatedBy(x: previewBox.origin.y/scaleBy, y: -clearAperture.height)
-        
         var angle = CGFloat(face.faceAngle)
         
         angle += face.leftEyeClosed ? -15 : 0
