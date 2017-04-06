@@ -213,7 +213,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
         let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
         let attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault, sampleBuffer, kCMAttachmentMode_ShouldPropagate)! as CFDictionary
         let ciImage = CIImage(cvPixelBuffer: pixelBuffer!, options: attachments as? [String : AnyObject])
-        let curDeviceOrientation = UIDevice.current.orientation
         var imageOptions = [String : Any]()
         
         imageOptions[CIDetectorEyeBlink] = true
@@ -227,20 +226,14 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
         
         let features = self.faceDetector?.features(in: ciImage, options: imageOptions)
         if let face = features?.first as? CIFaceFeature {
-            
-            let fdesc = CMSampleBufferGetFormatDescription(sampleBuffer)
-            let cleanAperture = CMVideoFormatDescriptionGetCleanAperture(fdesc!, false)
-            
             DispatchQueue.main.async {
-                self.drawFaces(face, forVideoBox: cleanAperture, orientation: curDeviceOrientation)
+                self.controlCar(face)
             }
         }
     }
     
     // 臉部判斷的核心
-    func drawFaces(_ face: CIFaceFeature,
-                   forVideoBox clearAperture: CGRect,
-                   orientation: UIDeviceOrientation){
+    func controlCar(_ face: CIFaceFeature) {
         
         var angle = CGFloat(face.faceAngle)
         
