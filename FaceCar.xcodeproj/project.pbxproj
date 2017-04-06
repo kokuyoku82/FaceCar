@@ -12,6 +12,7 @@
 		F267A3BE1E962C280037F8B7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F267A3BC1E962C280037F8B7 /* Main.storyboard */; };
 		F267A3C01E962C280037F8B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F267A3BF1E962C280037F8B7 /* Assets.xcassets */; };
 		F267A3C31E962C280037F8B7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F267A3C11E962C280037F8B7 /* LaunchScreen.storyboard */; };
+		F267A3CB1E962DAF0037F8B7 /* UIImage+Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F267A3CA1E962DAF0037F8B7 /* UIImage+Orientation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		F267A3BF1E962C280037F8B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F267A3C21E962C280037F8B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F267A3C41E962C280037F8B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F267A3CA1E962DAF0037F8B7 /* UIImage+Orientation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Orientation.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,7 @@
 			isa = PBXGroup;
 			children = (
 				F267A3B81E962C280037F8B7 /* AppDelegate.swift */,
+				F267A3CA1E962DAF0037F8B7 /* UIImage+Orientation.swift */,
 				F267A3BA1E962C280037F8B7 /* ViewController.swift */,
 				F267A3BC1E962C280037F8B7 /* Main.storyboard */,
 				F267A3BF1E962C280037F8B7 /* Assets.xcassets */,
@@ -139,6 +142,7 @@
 			files = (
 				F267A3BB1E962C280037F8B7 /* ViewController.swift in Sources */,
 				F267A3B91E962C280037F8B7 /* AppDelegate.swift in Sources */,
+				F267A3CB1E962DAF0037F8B7 /* UIImage+Orientation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,6 +306,7 @@
 				F267A3C91E962C280037F8B7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
