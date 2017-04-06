@@ -210,7 +210,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
     }
     
     let featureLayer = CALayer()
-    let buttonImages : [UIImage?] = [UIImage(named: "btn_shutter_p"), UIImage(named: "btn_shutter_n")]
     let featureLayerColors : [CGColor] = [UIColor.green.cgColor, UIColor.lightGray.cgColor]
     
     var legal = false {
