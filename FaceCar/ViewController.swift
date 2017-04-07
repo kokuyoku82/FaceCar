@@ -9,105 +9,29 @@
 import UIKit
 import AVFoundation
 import CoreImage
+import PBJVision
 
-class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCaptureVideoDataOutputSampleBufferDelegate {
+class ViewController: UIViewController {
     
     @IBOutlet var cameraView: UIView!
     @IBOutlet var carView: UIImageView!
     
-    //Session
-    lazy var captureSession : AVCaptureSession = {
-        let captureSession = AVCaptureSession()
+    //MARK: - Life Cycle
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         
-        if captureSession.canAddOutput(self.capturePhotoOutput) {
-            captureSession.addOutput(self.capturePhotoOutput)
-        }
-        if captureSession.canAddOutput(self.captureVideoDataOutput) {
-            self.captureVideoDataOutput.setSampleBufferDelegate(self, queue: self.captureVideoDataOutputQueue)
-            captureSession.addOutput(self.captureVideoDataOutput)
-        }
-        
-        self.captureVideoPreviewLayer.session = captureSession
-        self.captureVideoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
-        
-        self.captureVideoPreviewLayer.frame = self.cameraView.bounds
-        self.cameraView.layer.insertSublayer(self.captureVideoPreviewLayer, at: 0)
-        
-        return captureSession
-    }()
-    
-    //Output
-    private let capturePhotoOutput : AVCapturePhotoOutput = {
-        let capturePhotoOutput = AVCapturePhotoOutput()
-        capturePhotoOutput.isHighResolutionCaptureEnabled = true
-        return capturePhotoOutput
-    }()
-    
-    private let captureVideoDataOutput = AVCaptureVideoDataOutput()
-    private var captureVideoDataOutputQueue = DispatchQueue(label: "captureVideoDataOutputQueue")
-    
-    //PreviewLayer
-    let captureVideoPreviewLayer = AVCaptureVideoPreviewLayer()
-    
-    lazy var availableCameraInput : [AVCaptureDevicePosition : AVCaptureDeviceInput] = {
-        
-        var availableCameraInput = [AVCaptureDevicePosition : AVCaptureDeviceInput]()
-        
-        
-        if let frontCamera = AVCaptureDeviceDiscoverySession(deviceTypes: [AVCaptureDeviceType.builtInWideAngleCamera], mediaType: nil, position: AVCaptureDevicePosition.front).devices.first {
-            if frontCamera.hasMediaType(AVMediaTypeVideo) {
-                do {
-                    let cameraInput = try AVCaptureDeviceInput(device: frontCamera)
-                    availableCameraInput[.front] = cameraInput
-                }
-                catch {}
-            }
-        }
-        
-        if let backCamera = AVCaptureDeviceDiscoverySession(deviceTypes: [AVCaptureDeviceType.builtInWideAngleCamera], mediaType: nil, position: AVCaptureDevicePosition.back).devices.first {
-            if backCamera.hasMediaType(AVMediaTypeVideo) {
-                do {
-                    let cameraInput = try AVCaptureDeviceInput(device: backCamera)
-                    availableCameraInput[.back] = cameraInput
-                }
-                catch {}
-            }
-        }
-        
-        return availableCameraInput
-    }()
-    
-    var devicePosition : AVCaptureDevicePosition = .unspecified {
-        didSet {
-            
-            self.captureSession.stopRunning()
-            
-            for input in self.captureSession.inputs {
-                if let cameraInput = input as? AVCaptureDeviceInput {
-                    self.captureSession.removeInput(cameraInput)
-                }
-            }
-            
-            if self.devicePosition != .unspecified {
-                
-                var deviceInput : AVCaptureDeviceInput? = nil
-                
-                if let input = self.availableCameraInput[self.devicePosition] {
-                    deviceInput = input
-                }
-                else {
-                    self.showAlertCameraUnavailable()
-                }
-                
-                if let deviceInput = deviceInput {
-                    self.captureSession.addInput(deviceInput)
-                    self.captureSession.startRunning()
-                }
-            }
-        }
+        PBJVision.sharedInstance().previewLayer.frame = self.cameraView.bounds
     }
     
-    //MARK: - Life Cycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let previewLayer = PBJVision.sharedInstance().previewLayer
+        previewLayer.frame = self.cameraView.bounds
+        previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+        self.cameraView.layer.addSublayer(previewLayer)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -137,21 +61,16 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
     }
     
     func startPreview() {
-        if self.availableCameraInput.count <= 1 {
-            self.navigationItem.rightBarButtonItem = nil
-        }
+        let vision = PBJVision.sharedInstance()
+        vision.delegate = self
+        vision.cameraMode = PBJCameraMode.video
+        vision.cameraOrientation = .portrait
+        vision.focusMode = .continuousAutoFocus
+        vision.outputFormat = .square
+        vision.cameraDevice = .front
+        vision.additionalCompressionProperties = [AVVideoProfileLevelKey : AVVideoProfileLevelH264Baseline30]
         
-        if let _ = self.availableCameraInput[.front] {
-            self.devicePosition = .front
-        }
-        else {
-            if let _ = self.availableCameraInput[.back] {
-                self.devicePosition = .back
-            }
-            else {
-                self.showAlertCameraUnavailable()
-            }
-        }
+        vision.startPreview()
     }
     
     func showAlertCameraUnavailable() {
@@ -165,7 +84,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        self.devicePosition = .unspecified //使相機關閉
+//        self.devicePosition = .unspecified //使相機關閉
         super.viewDidDisappear(animated)
     }
     
@@ -201,36 +120,9 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
         }
     }
     
-    //MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
-    private var faceDetector = CIDetector(ofType: CIDetectorTypeFace,
+    var faceDetector = CIDetector(ofType: CIDetectorTypeFace,
                                           context: nil,
                                           options: [CIDetectorAccuracy: CIDetectorAccuracyHigh])
-    
-    func captureOutput(_ captureOutput: AVCaptureOutput!,
-                       didOutputSampleBuffer sampleBuffer: CMSampleBuffer!,
-                       from connection: AVCaptureConnection!) {
-        
-        let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
-        let attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault, sampleBuffer, kCMAttachmentMode_ShouldPropagate)! as CFDictionary
-        let ciImage = CIImage(cvPixelBuffer: pixelBuffer!, options: attachments as? [String : AnyObject])
-        var imageOptions = [String : Any]()
-        
-        imageOptions[CIDetectorEyeBlink] = true
-        imageOptions[CIDetectorSmile] = true
-        if self.devicePosition == .front {
-            imageOptions[CIDetectorImageOrientation] = 5
-        }
-        else {
-            imageOptions[CIDetectorImageOrientation] = 6
-        }
-        
-        let features = self.faceDetector?.features(in: ciImage, options: imageOptions)
-        if let face = features?.first as? CIFaceFeature {
-            DispatchQueue.main.async {
-                self.controlCar(face)
-            }
-        }
-    }
     
     // 臉部判斷的核心
     func controlCar(_ face: CIFaceFeature) {
@@ -246,6 +138,27 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
         
         if face.hasSmile {
             self.gunOnCar()
+        }
+    }
+}
+
+extension ViewController: PBJVisionDelegate {
+    func visionSessionDidStart(_ vision: PBJVision) {
+        vision.startVideoCapture()
+    }
+    
+    func vision(_ vision: PBJVision, didCaptureVideoSampleBuffer sampleBuffer: CMSampleBuffer) {
+        let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
+        let attachments = CMCopyDictionaryOfAttachments(kCFAllocatorDefault, sampleBuffer, kCMAttachmentMode_ShouldPropagate)! as CFDictionary
+        let ciImage = CIImage(cvPixelBuffer: pixelBuffer!, options: attachments as? [String : AnyObject])
+        var imageOptions = [String : Any]()
+
+        imageOptions[CIDetectorEyeBlink] = true
+        imageOptions[CIDetectorSmile] = true
+
+        let features = self.faceDetector?.features(in: ciImage, options: imageOptions)
+        if let face = features?.first as? CIFaceFeature {
+            self.controlCar(face)
         }
     }
 }
