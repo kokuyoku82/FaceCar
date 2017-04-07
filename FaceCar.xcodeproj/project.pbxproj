@@ -14,6 +14,7 @@
 		F267A3C01E962C280037F8B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F267A3BF1E962C280037F8B7 /* Assets.xcassets */; };
 		F267A3C31E962C280037F8B7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F267A3C11E962C280037F8B7 /* LaunchScreen.storyboard */; };
 		F267A3CB1E962DAF0037F8B7 /* UIImage+Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F267A3CA1E962DAF0037F8B7 /* UIImage+Orientation.swift */; };
+		F267A3D11E9766470037F8B7 /* FinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F267A3D01E9766470037F8B7 /* FinishViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		F267A3C21E962C280037F8B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F267A3C41E962C280037F8B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F267A3CA1E962DAF0037F8B7 /* UIImage+Orientation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Orientation.swift"; sourceTree = "<group>"; };
+		F267A3D01E9766470037F8B7 /* FinishViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinishViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 				F267A3B81E962C280037F8B7 /* AppDelegate.swift */,
 				F267A3CA1E962DAF0037F8B7 /* UIImage+Orientation.swift */,
 				F267A3BA1E962C280037F8B7 /* ViewController.swift */,
+				F267A3D01E9766470037F8B7 /* FinishViewController.swift */,
 				F267A3BC1E962C280037F8B7 /* Main.storyboard */,
 				F267A3BF1E962C280037F8B7 /* Assets.xcassets */,
 				F267A3C11E962C280037F8B7 /* LaunchScreen.storyboard */,
@@ -216,6 +219,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F267A3BB1E962C280037F8B7 /* ViewController.swift in Sources */,
+				F267A3D11E9766470037F8B7 /* FinishViewController.swift in Sources */,
 				F267A3B91E962C280037F8B7 /* AppDelegate.swift in Sources */,
 				F267A3CB1E962DAF0037F8B7 /* UIImage+Orientation.swift in Sources */,
 			);

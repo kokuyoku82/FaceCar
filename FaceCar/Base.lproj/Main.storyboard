@@ -92,6 +92,38 @@
             </objects>
             <point key="canvasLocation" x="44" y="47"/>
         </scene>
+        <!--Finish View Controller-->
+        <scene sceneID="vgu-sl-pWH">
+            <objects>
+                <viewController storyboardIdentifier="FinishViewController" id="Fnb-L9-3pF" customClass="FinishViewController" customModule="FaceCar" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="saX-wS-jdP"/>
+                        <viewControllerLayoutGuide type="bottom" id="nRX-cu-xHW"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="UYr-dX-r2X">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="urG-6R-jUE">
+                                <rect key="frame" x="40" y="70" width="294" height="294"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="urG-6R-jUE" secondAttribute="height" id="xRa-yc-avf"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="urG-6R-jUE" firstAttribute="top" secondItem="saX-wS-jdP" secondAttribute="bottom" constant="50" id="Hwc-W7-b3i"/>
+                            <constraint firstItem="urG-6R-jUE" firstAttribute="centerX" secondItem="UYr-dX-r2X" secondAttribute="centerX" id="Neb-Fi-mEP"/>
+                            <constraint firstItem="urG-6R-jUE" firstAttribute="leading" secondItem="UYr-dX-r2X" secondAttribute="leading" constant="40" id="msM-Sn-MQ1"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3be-YX-Y6M" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="794" y="47"/>
+        </scene>
     </scenes>
     <resources>
         <image name="car" width="32" height="59"/>

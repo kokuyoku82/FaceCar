@@ -16,6 +16,8 @@ class ViewController: UIViewController {
     @IBOutlet var cameraView: UIView!
     @IBOutlet var carView: UIImageView!
     
+    let finishMultiplier: CGFloat = 0.15
+    
     //MARK: - Life Cycle
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -161,6 +163,22 @@ extension ViewController: PBJVisionDelegate {
         if let face = features?.first as? CIFaceFeature {
             self.controlCar(face)
         }
+        
+        for constraint in self.view.constraints {
+            if constraint.identifier == "carVerticalSpace" {
+                if constraint.multiplier - 0.001 < self.finishMultiplier {
+                    if vision.isRecording {
+                        vision.endVideoCapture()
+                    }
+                }
+            }
+        }
+    }
+    
+    func vision(_ vision: PBJVision, capturedVideo videoDict: [AnyHashable : Any]?, error: Error?) {
+        let viewController = self.storyboard!.instantiateViewController(withIdentifier: "FinishViewController")
+        
+        self.present(viewController, animated: true, completion: nil)
     }
 }
 
