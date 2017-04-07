@@ -100,7 +100,7 @@ class ViewController: UIViewController {
                 newConstraint.identifier = constraint.identifier
                 self.view.removeConstraint(constraint)
                 self.view.addConstraint(newConstraint)
-                self.view.layoutIfNeeded()
+                self.view.setNeedsLayout()
             }
         }
     }
@@ -108,14 +108,14 @@ class ViewController: UIViewController {
     func gunOnCar() {
         for constraint in self.view.constraints {
             if constraint.identifier == "carVerticalSpace" {
-                var multiplier = constraint.multiplier - 0.025
+                var multiplier = constraint.multiplier - 0.005
                 multiplier = max(0.15, multiplier)
                 
                 let newConstraint = NSLayoutConstraint(item: constraint.firstItem, attribute: constraint.firstAttribute, relatedBy: constraint.relation, toItem: constraint.secondItem, attribute: constraint.secondAttribute, multiplier: multiplier, constant: constraint.constant)
                 newConstraint.identifier = constraint.identifier
                 self.view.removeConstraint(constraint)
                 self.view.addConstraint(newConstraint)
-                self.view.layoutIfNeeded()
+                self.view.setNeedsLayout()
             }
         }
     }
@@ -128,11 +128,12 @@ class ViewController: UIViewController {
     func controlCar(_ face: CIFaceFeature) {
         
         var angle = CGFloat(face.faceAngle)
+        angle = 0
         
-        angle += face.leftEyeClosed ? -15 : 0
-        angle += face.rightEyeClosed ? 15 : 0
+        angle += face.leftEyeClosed ? -10 : 0
+        angle += face.rightEyeClosed ? 10 : 0
         
-        angle /= 200
+        angle /= 600
         
         self.turnCar(angle: angle)
         
