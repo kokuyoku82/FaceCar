@@ -10,10 +10,14 @@ import UIKit
 import AVFoundation
 import CoreImage
 
+let tempVideoURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("video.mp4")
+
 class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     @IBOutlet var cameraView: UIView!
     @IBOutlet var carView: UIImageView!
+    
+    let finishMultiplier: CGFloat = 0.15
     
     //Session
     lazy var captureSession : AVCaptureSession = {
@@ -53,7 +57,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
         
         var availableCameraInput = [AVCaptureDevicePosition : AVCaptureDeviceInput]()
         
-        
         if let frontCamera = AVCaptureDeviceDiscoverySession(deviceTypes: [AVCaptureDeviceType.builtInWideAngleCamera], mediaType: nil, position: AVCaptureDevicePosition.front).devices.first {
             if frontCamera.hasMediaType(AVMediaTypeVideo) {
                 do {
@@ -79,7 +82,6 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
     
     var devicePosition : AVCaptureDevicePosition = .unspecified {
         didSet {
-            
             self.captureSession.stopRunning()
             
             for input in self.captureSession.inputs {
@@ -107,7 +109,37 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
         }
     }
     
+    lazy var videoWriter: AVAssetWriter? = {
+        let videoWriter = try? AVAssetWriter(url: tempVideoURL, fileType: AVFileTypeMPEG4)
+        
+        if videoWriter?.canAdd(self.writerInput) == true {
+            videoWriter?.add(self.writerInput)
+        }
+        
+        return videoWriter
+    }()
+    
+    lazy var writerInput: AVAssetWriterInput = {
+        var videoSettings: [String: Any] = [:]
+        videoSettings[AVVideoCodecKey] = AVVideoCodecH264
+        videoSettings[AVVideoWidthKey] = 320
+        videoSettings[AVVideoHeightKey] = 480
+        videoSettings[AVVideoScalingModeKey] = AVVideoScalingModeResizeAspectFill
+        
+        let writerInput = AVAssetWriterInput(mediaType: AVMediaTypeVideo, outputSettings: videoSettings)
+        writerInput.expectsMediaDataInRealTime = true
+        
+        return writerInput
+    }()
+    
+    var startTime = Date(timeIntervalSinceNow: 0)
+    var isRecording = false
+    
     //MARK: - Life Cycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -152,6 +184,12 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
                 self.showAlertCameraUnavailable()
             }
         }
+        
+        try? FileManager.default.removeItem(at: tempVideoURL)
+        self.videoWriter?.startWriting()
+        self.videoWriter?.startSession(atSourceTime: kCMTimeZero)
+        self.startTime = Date(timeIntervalSinceNow: 0)
+        self.isRecording = true
     }
     
     func showAlertCameraUnavailable() {
@@ -190,7 +228,7 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
         for constraint in self.view.constraints {
             if constraint.identifier == "carVerticalSpace" {
                 var multiplier = constraint.multiplier - 0.025
-                multiplier = max(0.15, multiplier)
+                multiplier = max(self.finishMultiplier, multiplier)
                 
                 let newConstraint = NSLayoutConstraint(item: constraint.firstItem, attribute: constraint.firstAttribute, relatedBy: constraint.relation, toItem: constraint.secondItem, attribute: constraint.secondAttribute, multiplier: multiplier, constant: constraint.constant)
                 newConstraint.identifier = constraint.identifier
@@ -224,10 +262,31 @@ class ViewController: UIViewController, AVCapturePhotoCaptureDelegate, AVCapture
             imageOptions[CIDetectorImageOrientation] = 6
         }
         
-        let features = self.faceDetector?.features(in: ciImage, options: imageOptions)
-        if let face = features?.first as? CIFaceFeature {
-            DispatchQueue.main.async {
+        DispatchQueue.main.async {
+            let newSampleBuffer = RotateBuffer().rotateBuffer(sampleBuffer, withConstant: 1)  as! CMSampleBuffer
+            self.writerInput.append(newSampleBuffer)
+            
+            let features = self.faceDetector?.features(in: ciImage, options: imageOptions)
+            if let face = features?.first as? CIFaceFeature {
                 self.controlCar(face)
+            }
+            
+            for constraint in self.view.constraints {
+                if constraint.identifier == "carVerticalSpace" {
+                    if constraint.multiplier - 0.001 < self.finishMultiplier {
+                        if self.isRecording {
+                            self.isRecording = false
+                            self.writerInput.markAsFinished()
+                            
+                            let sourceTime = CMTime(seconds: Date().timeIntervalSince(self.startTime), preferredTimescale: 1)
+                            
+                            self.videoWriter?.endSession(atSourceTime: sourceTime)
+                            self.videoWriter?.finishWriting {
+                                NSLog("finish")
+                            }
+                        }
+                    }
+                }
             }
         }
     }
