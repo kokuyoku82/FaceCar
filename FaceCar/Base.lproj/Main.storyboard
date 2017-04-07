@@ -45,7 +45,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="FaceCar" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GameViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="FaceCar" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -113,12 +113,27 @@
                                     <segue destination="WJT-M9-t8X" kind="embed" id="IZa-af-1c6"/>
                                 </connections>
                             </containerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gr3-te-UZt">
+                                <rect key="frame" x="167" y="527" width="40" height="30"/>
+                                <state key="normal" title="Share"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g0C-Mb-aZr">
+                                <rect key="frame" x="149.5" y="597" width="75" height="30"/>
+                                <state key="normal" title="New Game"/>
+                                <connections>
+                                    <action selector="startNewGameActionWithSender:" destination="Fnb-L9-3pF" eventType="touchUpInside" id="Y3r-fE-Eup"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="WBS-Zx-Y3j" firstAttribute="centerX" secondItem="UYr-dX-r2X" secondAttribute="centerX" id="HTM-XP-9OP"/>
                             <constraint firstItem="WBS-Zx-Y3j" firstAttribute="leading" secondItem="UYr-dX-r2X" secondAttribute="leading" constant="20" id="IHI-jK-HIN"/>
                             <constraint firstItem="WBS-Zx-Y3j" firstAttribute="top" secondItem="saX-wS-jdP" secondAttribute="bottom" constant="50" id="IjH-rg-kXa"/>
+                            <constraint firstItem="g0C-Mb-aZr" firstAttribute="centerX" secondItem="UYr-dX-r2X" secondAttribute="centerX" id="OfN-l0-qgM"/>
+                            <constraint firstItem="gr3-te-UZt" firstAttribute="centerX" secondItem="UYr-dX-r2X" secondAttribute="centerX" id="See-Gg-9ps"/>
+                            <constraint firstItem="nRX-cu-xHW" firstAttribute="top" secondItem="g0C-Mb-aZr" secondAttribute="bottom" constant="40" id="ZBk-kW-NJJ"/>
+                            <constraint firstItem="g0C-Mb-aZr" firstAttribute="top" secondItem="gr3-te-UZt" secondAttribute="bottom" constant="40" id="iIu-oW-J8V"/>
                         </constraints>
                     </view>
                 </viewController>

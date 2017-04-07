@@ -37,6 +37,8 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.resetCar()
+        
         if AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) == .authorized {
             self.startPreview()
         }
@@ -62,6 +64,12 @@ class ViewController: UIViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        PBJVision.sharedInstance().stopPreview()
+    }
+    
     func startPreview() {
         let vision = PBJVision.sharedInstance()
         vision.delegate = self
@@ -73,6 +81,32 @@ class ViewController: UIViewController {
         vision.additionalCompressionProperties = [AVVideoProfileLevelKey : AVVideoProfileLevelH264Baseline30]
         
         vision.startPreview()
+    }
+    
+    func resetCar() {
+        for constraint in self.view.constraints {
+            if constraint.identifier == "carCenterX" {
+                let multiplier = CGFloat(0.5)
+                
+                let newConstraint = NSLayoutConstraint(item: constraint.firstItem, attribute: constraint.firstAttribute, relatedBy: constraint.relation, toItem: constraint.secondItem, attribute: constraint.secondAttribute, multiplier: multiplier, constant: constraint.constant)
+                newConstraint.identifier = constraint.identifier
+                self.view.removeConstraint(constraint)
+                self.view.addConstraint(newConstraint)
+                self.view.setNeedsLayout()
+            }
+        }
+        
+        for constraint in self.view.constraints {
+            if constraint.identifier == "carVerticalSpace" {
+                let multiplier = CGFloat(1)
+                
+                let newConstraint = NSLayoutConstraint(item: constraint.firstItem, attribute: constraint.firstAttribute, relatedBy: constraint.relation, toItem: constraint.secondItem, attribute: constraint.secondAttribute, multiplier: multiplier, constant: constraint.constant)
+                newConstraint.identifier = constraint.identifier
+                self.view.removeConstraint(constraint)
+                self.view.addConstraint(newConstraint)
+                self.view.setNeedsLayout()
+            }
+        }
     }
     
     func showAlertCameraUnavailable() {
@@ -176,7 +210,7 @@ extension ViewController: PBJVisionDelegate {
     }
     
     func vision(_ vision: PBJVision, capturedVideo videoDict: [AnyHashable : Any]?, error: Error?) {
-        let viewController = self.storyboard!.instantiateViewController(withIdentifier: "FinishViewController") as! FinishViewController
+        let viewController = self.storyboard?.instantiateViewController(withIdentifier: "FinishViewController") as! FinishViewController
         if let videoPath = videoDict?[PBJVisionVideoPathKey] as? String {
             viewController.videoPath = videoPath
         }
