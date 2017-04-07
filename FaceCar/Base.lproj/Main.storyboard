@@ -104,25 +104,45 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="urG-6R-jUE">
-                                <rect key="frame" x="40" y="70" width="294" height="294"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WBS-Zx-Y3j">
+                                <rect key="frame" x="20" y="70" width="334" height="334"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="urG-6R-jUE" secondAttribute="height" id="xRa-yc-avf"/>
+                                    <constraint firstAttribute="width" secondItem="WBS-Zx-Y3j" secondAttribute="height" id="jpx-ih-WrC"/>
                                 </constraints>
-                            </view>
+                                <connections>
+                                    <segue destination="WJT-M9-t8X" kind="embed" id="IZa-af-1c6"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="urG-6R-jUE" firstAttribute="top" secondItem="saX-wS-jdP" secondAttribute="bottom" constant="50" id="Hwc-W7-b3i"/>
-                            <constraint firstItem="urG-6R-jUE" firstAttribute="centerX" secondItem="UYr-dX-r2X" secondAttribute="centerX" id="Neb-Fi-mEP"/>
-                            <constraint firstItem="urG-6R-jUE" firstAttribute="leading" secondItem="UYr-dX-r2X" secondAttribute="leading" constant="40" id="msM-Sn-MQ1"/>
+                            <constraint firstItem="WBS-Zx-Y3j" firstAttribute="centerX" secondItem="UYr-dX-r2X" secondAttribute="centerX" id="HTM-XP-9OP"/>
+                            <constraint firstItem="WBS-Zx-Y3j" firstAttribute="leading" secondItem="UYr-dX-r2X" secondAttribute="leading" constant="20" id="IHI-jK-HIN"/>
+                            <constraint firstItem="WBS-Zx-Y3j" firstAttribute="top" secondItem="saX-wS-jdP" secondAttribute="bottom" constant="50" id="IjH-rg-kXa"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3be-YX-Y6M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="794" y="47"/>
+        </scene>
+        <!--Video Player Controller-->
+        <scene sceneID="JUK-DV-OBs">
+            <objects>
+                <viewController id="WJT-M9-t8X" customClass="PBJVideoPlayerController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="HVs-fh-sSE"/>
+                        <viewControllerLayoutGuide type="bottom" id="Qa8-XG-QG7"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="XKf-Vc-LK9">
+                        <rect key="frame" x="0.0" y="0.0" width="334" height="334"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lrj-GN-pcR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1592" y="-54"/>
         </scene>
     </scenes>
     <resources>

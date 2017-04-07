@@ -176,7 +176,10 @@ extension ViewController: PBJVisionDelegate {
     }
     
     func vision(_ vision: PBJVision, capturedVideo videoDict: [AnyHashable : Any]?, error: Error?) {
-        let viewController = self.storyboard!.instantiateViewController(withIdentifier: "FinishViewController")
+        let viewController = self.storyboard!.instantiateViewController(withIdentifier: "FinishViewController") as! FinishViewController
+        if let videoPath = videoDict?[PBJVisionVideoPathKey] as? String {
+            viewController.videoPath = videoPath
+        }
         
         self.present(viewController, animated: true, completion: nil)
     }

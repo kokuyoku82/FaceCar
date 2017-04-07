@@ -7,20 +7,30 @@
 //
 
 import UIKit
+import PBJVideoPlayer
 
 class FinishViewController: UIViewController {
 
+    var videoPlayerController: PBJVideoPlayerController {
+        get {
+            return self.childViewControllers.reduce(nil, { (result, viewController) -> PBJVideoPlayerController? in
+                return viewController is PBJVideoPlayerController ? viewController as? PBJVideoPlayerController : result
+            })!
+        }
+    }
+    var videoPath = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        // setup media
+        self.videoPlayerController.videoPath = self.videoPath;
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
     /*
     // MARK: - Navigation

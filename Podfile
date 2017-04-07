@@ -7,5 +7,6 @@ target 'FaceCar' do
 
   # Pods for FaceCar
   pod 'PBJVision'
+  pod 'PBJVideoPlayer'
 
 end
