@@ -84,6 +84,8 @@ class ViewController: UIViewController {
     }
     
     func resetCar() {
+        self.carView.transform = CGAffineTransform(rotationAngle: 0)
+        
         for constraint in self.view.constraints {
             if constraint.identifier == "carCenterX" {
                 let multiplier = CGFloat(0.55)
@@ -132,10 +134,27 @@ class ViewController: UIViewController {
     }
     
     func gunOnCar() {
+        let angle = self.carView.rotationAngle
+        
         for constraint in self.view.constraints {
             if constraint.identifier == "carVerticalSpace" {
-                var multiplier = constraint.multiplier - 0.005
+                var multiplier = constraint.multiplier - cos(angle) / 100
                 multiplier = max(0.15, multiplier)
+                
+                let newConstraint = NSLayoutConstraint(item: constraint.firstItem, attribute: constraint.firstAttribute, relatedBy: constraint.relation, toItem: constraint.secondItem, attribute: constraint.secondAttribute, multiplier: multiplier, constant: constraint.constant)
+                newConstraint.identifier = constraint.identifier
+                self.view.removeConstraint(constraint)
+                self.view.addConstraint(newConstraint)
+                self.view.setNeedsLayout()
+            }
+        }
+        
+        for constraint in self.view.constraints {
+            if constraint.identifier == "carCenterX" {
+                var multiplier = constraint.multiplier + sin(angle) / 100
+                
+                multiplier = max(0.1, multiplier)
+                multiplier = min(multiplier, 1)
                 
                 let newConstraint = NSLayoutConstraint(item: constraint.firstItem, attribute: constraint.firstAttribute, relatedBy: constraint.relation, toItem: constraint.secondItem, attribute: constraint.secondAttribute, multiplier: multiplier, constant: constraint.constant)
                 newConstraint.identifier = constraint.identifier
