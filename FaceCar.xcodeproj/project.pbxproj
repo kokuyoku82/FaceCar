@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5ED09B092EE30EDFF2DAB639 /* Pods_FaceCar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FDE641CB8B019EE2A9D905C /* Pods_FaceCar.framework */; };
 		F267A3B91E962C280037F8B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F267A3B81E962C280037F8B7 /* AppDelegate.swift */; };
 		F267A3BB1E962C280037F8B7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F267A3BA1E962C280037F8B7 /* ViewController.swift */; };
 		F267A3BE1E962C280037F8B7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F267A3BC1E962C280037F8B7 /* Main.storyboard */; };
@@ -16,6 +17,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		65ED5637C29183C867522119 /* Pods-FaceCar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FaceCar.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FaceCar/Pods-FaceCar.debug.xcconfig"; sourceTree = "<group>"; };
+		7614BE61AF4075011C1F1AB4 /* Pods-FaceCar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FaceCar.release.xcconfig"; path = "Pods/Target Support Files/Pods-FaceCar/Pods-FaceCar.release.xcconfig"; sourceTree = "<group>"; };
+		9FDE641CB8B019EE2A9D905C /* Pods_FaceCar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FaceCar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F267A3B51E962C280037F8B7 /* FaceCar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FaceCar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F267A3B81E962C280037F8B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F267A3BA1E962C280037F8B7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -31,17 +35,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5ED09B092EE30EDFF2DAB639 /* Pods_FaceCar.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		68503361F6B1648ACB724A17 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				65ED5637C29183C867522119 /* Pods-FaceCar.debug.xcconfig */,
+				7614BE61AF4075011C1F1AB4 /* Pods-FaceCar.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		6DD72B66ECFD281B0AE030C2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9FDE641CB8B019EE2A9D905C /* Pods_FaceCar.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		F267A3AC1E962C280037F8B7 = {
 			isa = PBXGroup;
 			children = (
 				F267A3B71E962C280037F8B7 /* FaceCar */,
 				F267A3B61E962C280037F8B7 /* Products */,
+				68503361F6B1648ACB724A17 /* Pods */,
+				6DD72B66ECFD281B0AE030C2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,9 +98,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F267A3C71E962C280037F8B7 /* Build configuration list for PBXNativeTarget "FaceCar" */;
 			buildPhases = (
+				83E6B4A58559B22238E839DC /* [CP] Check Pods Manifest.lock */,
 				F267A3B11E962C280037F8B7 /* Sources */,
 				F267A3B21E962C280037F8B7 /* Frameworks */,
 				F267A3B31E962C280037F8B7 /* Resources */,
+				3F88F4EAC479012C6F833783 /* [CP] Embed Pods Frameworks */,
+				681BAB06AAF4D18CF8885D51 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -134,6 +161,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3F88F4EAC479012C6F833783 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FaceCar/Pods-FaceCar-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		681BAB06AAF4D18CF8885D51 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FaceCar/Pods-FaceCar-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		83E6B4A58559B22238E839DC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F267A3B11E962C280037F8B7 /* Sources */ = {
@@ -263,6 +338,7 @@
 		};
 		F267A3C81E962C280037F8B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 65ED5637C29183C867522119 /* Pods-FaceCar.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = SJZ9Z68RJP;
@@ -277,6 +353,7 @@
 		};
 		F267A3C91E962C280037F8B7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7614BE61AF4075011C1F1AB4 /* Pods-FaceCar.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = SJZ9Z68RJP;
