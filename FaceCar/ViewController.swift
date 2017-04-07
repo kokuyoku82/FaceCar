@@ -125,20 +125,10 @@ class ViewController: UIViewController {
     }
     
     func turnCar(angle: CGFloat) {
-        for constraint in self.view.constraints {
-            if constraint.identifier == "carCenterX" {
-                var multiplier = constraint.multiplier + angle
-                
-                multiplier = max(0.1, multiplier)
-                multiplier = min(multiplier, 1)
-                
-                let newConstraint = NSLayoutConstraint(item: constraint.firstItem, attribute: constraint.firstAttribute, relatedBy: constraint.relation, toItem: constraint.secondItem, attribute: constraint.secondAttribute, multiplier: multiplier, constant: constraint.constant)
-                newConstraint.identifier = constraint.identifier
-                self.view.removeConstraint(constraint)
-                self.view.addConstraint(newConstraint)
-                self.view.setNeedsLayout()
-            }
-        }
+        var newAngle = self.carView.rotationAngle + angle / 180 * .pi
+        newAngle = max(.pi / -2, newAngle)
+        newAngle = min(newAngle, .pi / 2)
+        self.carView.transform = CGAffineTransform(rotationAngle: newAngle)
     }
     
     func gunOnCar() {
@@ -168,8 +158,6 @@ class ViewController: UIViewController {
         
         angle += face.leftEyeClosed ? -10 : 0
         angle += face.rightEyeClosed ? 10 : 0
-        
-        angle /= 600
         
         self.turnCar(angle: angle)
         
@@ -246,3 +234,10 @@ extension UIViewController {
     }
 }
 
+extension UIView {
+    var rotationAngle: CGFloat {
+        get {
+            return self.value(forKeyPath: "layer.transform.rotation.z") as! CGFloat
+        }
+    }
+}
