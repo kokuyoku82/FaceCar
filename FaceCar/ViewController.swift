@@ -86,7 +86,7 @@ class ViewController: UIViewController {
     func resetCar() {
         for constraint in self.view.constraints {
             if constraint.identifier == "carCenterX" {
-                let multiplier = CGFloat(0.5)
+                let multiplier = CGFloat(0.55)
                 
                 let newConstraint = NSLayoutConstraint(item: constraint.firstItem, attribute: constraint.firstAttribute, relatedBy: constraint.relation, toItem: constraint.secondItem, attribute: constraint.secondAttribute, multiplier: multiplier, constant: constraint.constant)
                 newConstraint.identifier = constraint.identifier
